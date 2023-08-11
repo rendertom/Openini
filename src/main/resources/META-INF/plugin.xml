@@ -35,15 +35,18 @@
 
     <actions>
         <group id="wrapper">
-            <group id="parent_group" popup="true" text="Openini" icon="/icon.svg">
+            <group id="Openini.Container" popup="true" text="Openini" icon="/icon.svg">
                 <action id="Openini.OpenFile" class="com.rendertom.openini.Actions$OpenFile"
                         text="Open File in VSCode" icon="AllIcons.FileTypes.Any_type"/>
                 <action id="Openini.OpenProject" class="com.rendertom.openini.Actions$OpenProject"
-                        text="Open Project in VSCode" icon="AllIcons.Nodes.Folder"/>
+                        text="Open Project in VSCode" icon="AllIcons.Actions.ProjectDirectory"/>
             </group>
 
             <separator/>
+            <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="Diff.EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </group>
     </actions>
