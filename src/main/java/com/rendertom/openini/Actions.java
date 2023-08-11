@@ -3,16 +3,35 @@ package com.rendertom.openini;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.rendertom.openini.Utils.File;
 import com.rendertom.openini.Utils.VSCode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Actions {
-    private static void setEnabled(@NotNull Presentation presentation, @NotNull Boolean enabled) {
-        presentation.setEnabled(enabled);
+    private static @NotNull String getActionName(@NotNull AnActionEvent event) {
+        VirtualFile[] files = File.getVirtualFiles(event);
+        if (files == null || files.length == 0) return "";
+
+        long numFiles = Arrays.stream(files).filter(item -> !item.isDirectory()).count();
+        long numFolders = Arrays.stream(files).filter(VirtualFile::isDirectory).count();
+
+        String description;
+        String fileType = numFiles == 1 ? "File" : (numFiles + " Files");
+        String folderType = numFolders == 1 ? "Folder" : (numFolders + " Folders");
+
+        if (numFiles == 0) {
+            description = folderType;
+        } else if (numFolders == 0) {
+            description = fileType;
+        } else {
+            description = fileType + " and " + folderType;
+        }
+
+        return "Open " + description + " in VSCode";
     }
 
     public static class OpenFile extends AnAction {
@@ -32,7 +51,12 @@ public class Actions {
 
         @Override
         public void update(@NotNull AnActionEvent event) {
-            setEnabled(event.getPresentation(), File.exists(File.getVirtualFiles(event)));
+            String name = getActionName(event);
+            if (!name.isEmpty()) {
+                event.getPresentation().setText(name);
+            } else {
+                event.getPresentation().setEnabled(false);
+            }
         }
     }
 
@@ -53,7 +77,7 @@ public class Actions {
 
         @Override
         public void update(@NotNull AnActionEvent event) {
-            setEnabled(event.getPresentation(), File.exists(File.getProjectFileDirectory(event)));
+            event.getPresentation().setEnabled(File.exists(File.getProjectFileDirectory(event)));
         }
     }
 }
