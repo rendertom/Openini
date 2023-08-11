@@ -1,4 +1,4 @@
-<div align="center" style="padding-bottom:20px">
+<div style="padding-bottom: 20px; text-align: center">
   <img src="./src/main/resources/logo.svg" height="100px" alt="logo"/>
 </div>
 
@@ -12,8 +12,8 @@ There are cases when it is easier to perform specific tasks in VSCode rather tha
 
 Right-click in the editor or project window and select **Openini**:
 
-- **Open File in VSCode** to open the selected file or folder inside the VSCode application.
-- **Open Project in VSCode** to open the project associated with the selected file or folder inside the VSCode application.
+- **Open File in VSCode** to open the selected files or folders inside the VSCode application. _(NOTE: name changes based on selection)_
+- **Open Project in VSCode** to open the project associated with the selected files or folders inside the VSCode application.
 
 ## Prerequisites
 
