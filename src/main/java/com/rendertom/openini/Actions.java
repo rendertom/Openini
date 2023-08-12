@@ -34,6 +34,13 @@ public class Actions {
         return "Open " + description + " in VSCode";
     }
 
+    public static class Get extends AnAction{
+        @Override
+        public void actionPerformed(@NotNull AnActionEvent event) {
+            VSCode.get();
+        }
+    }
+
     public static class OpenFile extends AnAction {
         @Override
         public @NotNull ActionUpdateThread getActionUpdateThread() {

@@ -40,9 +40,15 @@
                         text="Open File in VSCode" icon="AllIcons.FileTypes.Any_type"/>
                 <action id="Openini.OpenProject" class="com.rendertom.openini.Actions$OpenProject"
                         text="Open Project in VSCode" icon="AllIcons.Actions.ProjectDirectory"/>
+
+                <separator/>
+
+                <action id="Openini.GetVSCode" class="com.rendertom.openini.Actions$Get"
+                        text="Get VSCode"/>
             </group>
 
             <separator/>
+
             <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
             <add-to-group group-id="Diff.EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
