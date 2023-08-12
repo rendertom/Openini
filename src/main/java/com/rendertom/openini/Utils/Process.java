@@ -11,9 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Process {
-    private static int runCommand(@NotNull List<String> command) throws IOException, InterruptedException {
+    private static ArrayList<String> getArguments() {
+        return new ArrayList<>(SystemInfo.isWindows ? List.of("cmd.exe", "/C") : List.of("bash", "-l", "-c"));
+    }
+
+    private static int runCommand(@NotNull String command) throws IOException, InterruptedException {
+        ArrayList<String> arguments = getArguments();
+        arguments.add(command);
+
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(command);
+        builder.command(arguments);
         builder.redirectErrorStream(true);
         System.out.println("Command: " + builder.command());
 
@@ -32,20 +39,12 @@ public class Process {
         return exitCode;
     }
 
-    public static boolean isInstalled(@NotNull String binName) throws IOException, InterruptedException {
-        return run(binName, List.of("--version")) == 0;
+
+    public static boolean isInstalled(@NotNull String editorCommand) throws IOException, InterruptedException {
+        return runCommand(editorCommand + " --version") == 0;
     }
 
-    public static int run(String binName, List<String> arguments) throws IOException, InterruptedException {
-        List<String> command = new ArrayList<>(
-            SystemInfo.isWindows
-                ? List.of("cmd.exe", "/C")
-                : List.of("bash", "-l")
-        );
-
-        command.add(binName);
-        command.addAll(arguments);
-
-        return runCommand(command);
+    public static void run(String editorCommand, List<String> arguments) throws IOException, InterruptedException {
+        runCommand(editorCommand + " " + String.join(" ", arguments));
     }
 }
