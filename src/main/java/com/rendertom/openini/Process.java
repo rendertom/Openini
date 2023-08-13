@@ -1,6 +1,5 @@
 package com.rendertom.openini;
 
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,20 +8,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Process {
-    public static void executeIfExists(String command, List<String> arguments) throws IOException, InterruptedException {
-        if (isInstalled(command)) {
-            int exitCode = run(command, arguments);
-            Messages.showMessageDialog(String.valueOf(exitCode), "Message Title", Messages.getInformationIcon());
-            System.out.println("Process exited with code: " + exitCode);
-        } else {
-            System.out.println(command + " is not installed");
-        }
+    public static void executeIfExists(String command, String argument) throws IOException, InterruptedException {
+        executeIfExists(command, List.of(argument));
     }
 
-    public static boolean isInstalled(@NotNull String command) throws IOException, InterruptedException {
-        return runCommand(command + " --version") == 0;
+    public static void executeIfExists(String command, List<String> arguments) throws IOException, InterruptedException {
+        ProcessResult installResult = runCommand(command + " --version");
+        if (installResult.isFailure()) {
+            Notifier.error("Editor is not installed", installResult.toHTML());
+            return;
+        }
+
+        ProcessResult result = run(command, arguments);
+        if (result.isFailure()) {
+            Notifier.error("Something went wrong", result.toString());
+        }
     }
 
     ///
@@ -31,11 +34,11 @@ public class Process {
         return new ArrayList<>(SystemInfo.isWindows ? List.of("cmd.exe", "/C") : List.of("/bin/bash", "--login", "-c"));
     }
 
-    private static int run(String command, List<String> arguments) throws IOException, InterruptedException {
+    private static ProcessResult run(String command, List<String> arguments) throws IOException, InterruptedException {
         return runCommand(command + " " + String.join(" ", arguments));
     }
 
-    private static int runCommand(@NotNull String command) throws IOException, InterruptedException {
+    private static ProcessResult runCommand(@NotNull String command) throws IOException, InterruptedException {
         ArrayList<String> arguments = getArguments();
         arguments.add(command);
 
@@ -45,13 +48,15 @@ public class Process {
         System.out.println("Command: " + builder.command());
 
         java.lang.Process process = builder.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        int exitCode = process.waitFor();
+        System.out.println("Exit code: " + exitCode);
 
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        String message;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            message = reader.lines().collect(Collectors.joining("\n"));
+            System.out.println("Message: " + message);
         }
 
-        return process.waitFor();
+        return new ProcessResult(builder.command().toString(), exitCode, message);
     }
 }

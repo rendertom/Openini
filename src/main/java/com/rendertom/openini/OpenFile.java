@@ -29,8 +29,10 @@ public abstract class OpenFile extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
         try {
             VirtualFile[] files = FileEx.getVirtualFiles(event);
-            List<String> paths = FileEx.getPaths(files);
-            Process.executeIfExists(EDITOR_COMMAND, Utils.quoteEach(paths));
+            if (files != null) {
+                List<String> paths = FileEx.getPaths(files);
+                Process.executeIfExists(StringEx.quoteIfHasSpaces(EDITOR_COMMAND), StringEx.quoteEachIfHasSpaces(paths));
+            }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

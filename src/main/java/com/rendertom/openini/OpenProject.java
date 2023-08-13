@@ -7,7 +7,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.List;
 
 public abstract class OpenProject extends AnAction {
     protected final String EDITOR_COMMAND;
@@ -25,8 +24,9 @@ public abstract class OpenProject extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
         try {
             VirtualFile file = FileEx.getProjectFileDirectory(event);
-            List<String> paths = List.of(FileEx.getPath(file));
-            Process.executeIfExists(EDITOR_COMMAND, Utils.quoteEach(paths));
+            if (FileEx.exists(file)) {
+                Process.executeIfExists(StringEx.quoteIfHasSpaces(EDITOR_COMMAND), StringEx.quoteIfHasSpaces(file.getPath()));
+            }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

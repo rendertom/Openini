@@ -1,22 +1,24 @@
 package com.rendertom.openini;
 
+import org.jetbrains.annotations.NotNull;
+
 public class AppConfigVSCode extends AppConfig {
     final String appName = "VSCode";
     final String editorCommand = "code";
     final String URL = "https://code.visualstudio.com/";
 
     @Override
-    public String getAppName() {
+    public @NotNull String getAppName() {
         return appName;
     }
 
     @Override
-    public String getEditorCommand() {
+    public @NotNull String getEditorCommand() {
         return editorCommand;
     }
 
     @Override
-    public String getURL() {
+    public @NotNull String getURL() {
         return URL;
     }
 }
