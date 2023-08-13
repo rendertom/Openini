@@ -36,15 +36,18 @@
     <actions>
         <group id="wrapper">
             <group id="Openini.Container" popup="true" text="Openini" icon="/icon.svg">
-                <action id="Openini.OpenFile" class="com.rendertom.openini.Actions$OpenFile"
-                        text="Open File in VSCode" icon="AllIcons.FileTypes.Any_type"/>
-                <action id="Openini.OpenProject" class="com.rendertom.openini.Actions$OpenProject"
-                        text="Open Project in VSCode" icon="AllIcons.Actions.ProjectDirectory"/>
-
+                <action id="Openini.OpenFileSublime" class="com.rendertom.openini.OpenFileSublime"
+                        text="Open File in Sublime Text"/>
+                <action id="Openini.OpenProjectSublime" class="com.rendertom.openini.OpenProjectSublime"
+                        text="Open Project in Sublime Text"/>
+                <action id="Openini.OpenURLSublime" class="com.rendertom.openini.OpenURLSublime"
+                        text="Get Sublime Text"/>
                 <separator/>
-
-                <action id="Openini.GetVSCode" class="com.rendertom.openini.Actions$Get"
-                        text="Get VSCode"/>
+                <action id="Openini.OpenFileVSCode" class="com.rendertom.openini.OpenFileVSCode"
+                        text="Open File in VSCode"/>
+                <action id="Openini.OpenProjectVSCode" class="com.rendertom.openini.OpenProjectVSCode"
+                        text="Open Project in VSCode"/>
+                <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.OpenURLVSCode" text="Get VSCode"/>
             </group>
 
             <separator/>

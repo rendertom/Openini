@@ -1,4 +1,4 @@
-package com.rendertom.openini.Utils;
+package com.rendertom.openini;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -7,17 +7,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class File {
-    @NotNull
-    public static String getPath(@Nullable VirtualFile file) {
+public class FileEx {
+    public static boolean exists(@Nullable VirtualFile file) {
+        return file != null && file.exists();
+    }
+
+    public static @NotNull String getPath(@Nullable VirtualFile file) {
         return exists(file) ? file.getPath() : "";
     }
 
-    @NotNull
-    public static List<String> getPaths(@Nullable VirtualFile[] files) {
+    public static @NotNull List<String> getPaths(@Nullable VirtualFile[] files) {
         List<String> paths = new ArrayList<>();
 
         if (files == null) return paths;
@@ -31,21 +32,11 @@ public class File {
         return paths;
     }
 
-    public static boolean exists(@Nullable VirtualFile file) {
-        return file != null && file.exists();
-    }
-
-    public static boolean exists(@Nullable VirtualFile[] files) {
-        return files != null && Arrays.stream(files).allMatch(File::exists);
-    }
-
-    @Nullable
-    public static VirtualFile getProjectFileDirectory(@NotNull AnActionEvent event) {
+    public static @Nullable VirtualFile getProjectFileDirectory(@NotNull AnActionEvent event) {
         return event.getData(PlatformDataKeys.PROJECT_FILE_DIRECTORY);
     }
 
-    @Nullable
-    public static VirtualFile[] getVirtualFiles(@NotNull AnActionEvent event) {
+    public static @Nullable VirtualFile[] getVirtualFiles(@NotNull AnActionEvent event) {
         return event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
     }
 }
