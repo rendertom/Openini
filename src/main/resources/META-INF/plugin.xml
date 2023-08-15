@@ -7,6 +7,10 @@
         Gets added on build process from build.gradle.kts > pluginDescription() method.
     </description>
 
+    <change-notes>
+        Gets added on build process from build.gradle.kts > pluginDescription() method.
+    </change-notes>
+
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Openini notifications" displayType="BALLOON"/>
@@ -16,17 +20,18 @@
         <group id="wrapper">
             <group id="Openini.Container" popup="true" text="Openini" icon="/icon.svg">
                 <action id="Openini.OpenFileSublime" class="com.rendertom.openini.OpenFileSublime"
-                        text="Open File in Sublime Text"/>
+                        text="Open File in Sublime Text" icon="/sublime.svg"/>
                 <action id="Openini.OpenProjectSublime" class="com.rendertom.openini.OpenProjectSublime"
-                        text="Open Project in Sublime Text"/>
+                        text="Open Project in Sublime Text" icon="/sublime.svg"/>
                 <action id="Openini.OpenURLSublime" class="com.rendertom.openini.OpenURLSublime"
-                        text="Get Sublime Text"/>
+                        text="Get Sublime Text" icon="AllIcons.General.Web"/>
                 <separator/>
                 <action id="Openini.OpenFileVSCode" class="com.rendertom.openini.OpenFileVSCode"
-                        text="Open File in VSCode"/>
+                        text="Open File in VSCode" icon="/vscode.svg"/>
                 <action id="Openini.OpenProjectVSCode" class="com.rendertom.openini.OpenProjectVSCode"
-                        text="Open Project in VSCode"/>
-                <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.OpenURLVSCode" text="Get VSCode"/>
+                        text="Open Project in VSCode" icon="/vscode.svg"/>
+                <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.OpenURLVSCode" text="Get VSCode"
+                        icon="AllIcons.General.Web"/>
             </group>
 
             <separator/>
