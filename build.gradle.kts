@@ -27,16 +27,17 @@ tasks {
         sinceBuild.set("222")
         untilBuild.set("232.*")
 
-        pluginDescription.set(
-            projectDir.resolve("./README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
-
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) }
-        )
+        pluginDescription.set(extractText("./README.md"))
+        changeNotes.set(extractText("./CHANGELOG.md"))
     }
 }
+
+fun extractText(filePath: String) = projectDir.resolve(filePath).readText().lines().run {
+    val start = "<!-- Plugin info START -->"
+    val end = "<!-- Plugin info END -->"
+
+    if (!containsAll(listOf(start, end))) {
+        throw GradleException("Plugin info section not found in $filePath file:\n$start ... $end")
+    }
+    subList(indexOf(start) + 1, indexOf(end))
+}.joinToString("\n").run { markdownToHTML(this) }
