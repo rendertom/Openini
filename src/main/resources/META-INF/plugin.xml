@@ -19,18 +19,18 @@
     <actions>
         <group id="wrapper">
             <group id="Openini.Container" popup="true" text="Openini" icon="/icon.svg">
-                <action id="Openini.OpenFileSublime" class="com.rendertom.openini.OpenFileSublime"
+                <action id="Openini.OpenFileSublime" class="com.rendertom.openini.actions.OpenFileSublime"
                         text="Open File in Sublime Text" icon="/sublime.svg"/>
-                <action id="Openini.OpenProjectSublime" class="com.rendertom.openini.OpenProjectSublime"
+                <action id="Openini.OpenProjectSublime" class="com.rendertom.openini.actions.OpenProjectSublime"
                         text="Open Project in Sublime Text" icon="/sublime.svg"/>
-                <action id="Openini.OpenURLSublime" class="com.rendertom.openini.OpenURLSublime"
+                <action id="Openini.OpenURLSublime" class="com.rendertom.openini.actions.OpenURLSublime"
                         text="Get Sublime Text" icon="AllIcons.General.Web"/>
                 <separator/>
-                <action id="Openini.OpenFileVSCode" class="com.rendertom.openini.OpenFileVSCode"
+                <action id="Openini.OpenFileVSCode" class="com.rendertom.openini.actions.OpenFileVSCode"
                         text="Open File in VSCode" icon="/vscode.svg"/>
-                <action id="Openini.OpenProjectVSCode" class="com.rendertom.openini.OpenProjectVSCode"
+                <action id="Openini.OpenProjectVSCode" class="com.rendertom.openini.actions.OpenProjectVSCode"
                         text="Open Project in VSCode" icon="/vscode.svg"/>
-                <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.OpenURLVSCode" text="Get VSCode"
+                <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.actions.OpenURLVSCode" text="Get VSCode"
                         icon="AllIcons.General.Web"/>
             </group>
 

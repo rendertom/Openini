@@ -1,4 +1,4 @@
-package com.rendertom.openini;
+package com.rendertom.openini.utils;
 
 public class ProcessResult {
     private final String COMMAND;

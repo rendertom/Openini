@@ -1,4 +1,4 @@
-package com.rendertom.openini;
+package com.rendertom.openini.config;
 
 import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NotNull;
