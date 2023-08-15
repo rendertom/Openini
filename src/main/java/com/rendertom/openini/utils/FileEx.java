@@ -1,4 +1,4 @@
-package com.rendertom.openini;
+package com.rendertom.openini.utils;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;

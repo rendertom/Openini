@@ -1,4 +1,4 @@
-package com.rendertom.openini;
+package com.rendertom.openini.utils;
 
 import org.jetbrains.annotations.NotNull;
 

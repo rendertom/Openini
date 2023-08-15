@@ -1,4 +1,4 @@
-package com.rendertom.openini;
+package com.rendertom.openini.utils;
 
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;

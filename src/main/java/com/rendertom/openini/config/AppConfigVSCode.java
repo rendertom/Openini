@@ -1,5 +1,6 @@
-package com.rendertom.openini;
+package com.rendertom.openini.config;
 
+import com.rendertom.openini.config.AppConfig;
 import org.jetbrains.annotations.NotNull;
 
 public class AppConfigVSCode extends AppConfig {
