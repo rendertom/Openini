@@ -51,12 +51,12 @@ public class Process {
     int exitCode = process.waitFor();
     System.out.println("Exit code: " + exitCode);
 
-    String message;
+    String output;
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-      message = reader.lines().collect(Collectors.joining("\n"));
-      System.out.println("Message: " + message);
+      output = reader.lines().collect(Collectors.joining("\n"));
+      System.out.println("Output: " + output);
     }
 
-    return new ProcessResult(builder.command().toString(), exitCode, message);
+    return new ProcessResult(builder.command().toString(), exitCode, output);
   }
 }
