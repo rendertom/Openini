@@ -2,6 +2,8 @@
   <img src="./src/main/resources/logo.svg" height="100px" alt="logo"/>
 </div>
 
+<!-- Plugin description -->
+
 **Openini** is a plugin for IntelliJ-based IDEs that allows opening individual files, folders, and projects inside the VSCode application without ever leaving the IntelliJ IDE.
 
 ## Why
@@ -30,3 +32,5 @@ Obviously, [VSCode](https://code.visualstudio.com/) must be installed on your sy
 ## Contribution
 
 Visit the plugin's GitHub [repository](https://github.com/rendertom/openini)
+
+<!-- Plugin description end -->
