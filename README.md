@@ -4,22 +4,26 @@
 
 <!-- Plugin info START -->
 
-**Openini** is a plugin for IntelliJ-based IDEs that allows opening individual files, folders, and projects inside the VSCode application without ever leaving the IntelliJ IDE.
+**Openini** is a plugin for IntelliJ-based IDEs that allows opening individual files, folders, and projects inside the [Sublime Text](https://www.sublimetext.com/) or [VSCode](https://code.visualstudio.com/) applications without ever leaving the IntelliJ IDE.
 
 ## Why
 
-There are cases when it is easier to perform specific tasks in VSCode rather than in the IntelliJ IDE. It is up to you to find those cases.
+There are cases when it is easier to perform specific tasks in another application rather than in the IntelliJ IDE. It is up to you to find those cases.
 
 ## How
 
 Right-click in the editor or project window and select **Openini**:
 
+- **Open File in Sublime Text** to open the selected files or folders inside the Sublime Text application. _(NOTE: name changes based on selection)_
+- **Open Project in Sublime Text** to open the project associated with the selected files or folders inside the Sublime Text application.
+- **Get Sublime Text** to open official Sublime Text webpage <https://www.sublimetext.com/>.
 - **Open File in VSCode** to open the selected files or folders inside the VSCode application. _(NOTE: name changes based on selection)_
 - **Open Project in VSCode** to open the project associated with the selected files or folders inside the VSCode application.
+- **Get VSCode** to open official VSCode webpage <https://code.visualstudio.com/>.
 
 ## Prerequisites
 
-Obviously, [VSCode](https://code.visualstudio.com/) must be installed on your system in order to use **Openini**. Additionally, if you're on a Mac, please [add VSCode to your $PATH](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
+Obviously, [Sublime Text](https://www.sublimetext.com/) and/or [VSCode](https://code.visualstudio.com/) must be installed on your system in order to use **Openini**. Additionally, if you're on a Mac, please [add VSCode to your $PATH](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 
 ## Installation
 
