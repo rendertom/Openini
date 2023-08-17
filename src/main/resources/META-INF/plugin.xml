@@ -1,50 +1,46 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.rendertom.openini</id>
-    <name>Openini</name>
-    <vendor url="https://www.rendertom.com">renderTom</vendor>
-    <description><![CDATA[
-        <strong>Openini</strong> is a plugin for IntelliJ-based IDEs that allows opening individual files, folders, and projects inside the VSCode application without ever leaving the IntelliJ IDE.
-        <h2>Why</h2>
-        <p>There are cases when it is easier to perform specific tasks in VSCode rather than in the IntelliJ IDE. It is up to you to find those cases.</p>
-        <h2>How</h2>
-        <p>Right-click in the editor or project window and select <strong>Openini</strong>:</p>
-        <ul>
-          <li><strong>Open File in VSCode</strong> to open the selected file or folder inside the VSCode application.</li>
-          <li><strong>Open Project in VSCode</strong> to open the project associated with the selected file or folder inside the VSCode application.</li>
-        </ul>
-        <h2>Prerequisites</h2>
-        <p>Obviously, <a href="https://code.visualstudio.com/">VSCode</a> must be installed on your system in order to use <strong>Openini</strong>. Additionally, if you're on a Mac, please <a href="https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line">add VSCode to your $PATH</a>.</p>
-        <h2>Installation</h2>
-        <ol>
-          <li>Download the latest plugin version from the <a href="https://github.com/rendertom/openini/releases">releases</a> section.</li>
-          <li>In the IntelliJ IDE:
-            <ol>
-              <li>Navigate to the Settings &gt; Plugins window.</li>
-              <li>Click on the gear icon and select "Install Plugin from Disk..."</li>
-              <li>Select the file you downloaded in step #1.</li>
-            </ol>
-          </li>
-        </ol>
-        <h2>Contribution</h2>
-        <p>Visit the plugin's GitHub <a href="https://github.com/rendertom/openini">repository</a></p>
-    ]]></description>
+  <id>com.rendertom.openini</id>
+  <name>Openini</name>
+  <vendor url="https://www.rendertom.com">renderTom</vendor>
+  <description>
+    Gets added on build process from build.gradle.kts > pluginDescription() method.
+  </description>
 
-    <depends>com.intellij.modules.platform</depends>
-    <extensions defaultExtensionNs="com.intellij"/>
+  <change-notes>
+    Gets added on build process from build.gradle.kts > pluginDescription() method.
+  </change-notes>
 
-    <actions>
-        <group id="wrapper">
-            <group id="parent_group" popup="true" text="Openini" icon="/icon.svg">
-                <action id="Openini.OpenFile" class="com.rendertom.openini.Actions$OpenFile"
-                        text="Open File in VSCode" icon="AllIcons.FileTypes.Any_type"/>
-                <action id="Openini.OpenProject" class="com.rendertom.openini.Actions$OpenProject"
-                        text="Open Project in VSCode" icon="AllIcons.Nodes.Folder"/>
-            </group>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <notificationGroup id="Openini notifications" displayType="BALLOON"/>
+  </extensions>
 
-            <separator/>
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-        </group>
-    </actions>
+  <actions>
+    <group id="wrapper">
+      <group id="Openini.Container" popup="true" text="Openini" icon="/icon.svg">
+        <action id="Openini.OpenFileSublime" class="com.rendertom.openini.actions.OpenFileSublime"
+                text="Open File in Sublime Text" icon="/sublime.svg"/>
+        <action id="Openini.OpenProjectSublime" class="com.rendertom.openini.actions.OpenProjectSublime"
+                text="Open Project in Sublime Text" icon="/sublime.svg"/>
+        <action id="Openini.OpenURLSublime" class="com.rendertom.openini.actions.OpenURLSublime"
+                text="Get Sublime Text" icon="AllIcons.General.Web"/>
+        <separator/>
+        <action id="Openini.OpenFileVSCode" class="com.rendertom.openini.actions.OpenFileVSCode"
+                text="Open File in VSCode" icon="/vscode.svg"/>
+        <action id="Openini.OpenProjectVSCode" class="com.rendertom.openini.actions.OpenProjectVSCode"
+                text="Open Project in VSCode" icon="/vscode.svg"/>
+        <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.actions.OpenURLVSCode" text="Get VSCode"
+                icon="AllIcons.General.Web"/>
+      </group>
+
+      <separator/>
+
+      <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
+      <add-to-group group-id="Diff.EditorPopupMenu" anchor="last"/>
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+    </group>
+  </actions>
 </idea-plugin>
