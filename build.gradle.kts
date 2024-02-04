@@ -13,6 +13,19 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0") // JUnit Jupiter API for writing tests
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0") // JUnit Jupiter Engine to run the tests
+
+    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation("org.mockito:mockito-inline:3.11.2") // For static method mocking
+    testImplementation("org.mockito:mockito-junit-jupiter:3.11.2") // Mockito JUnit Jupiter support
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
 intellij {
     version.set("2022.2.5")
 }
