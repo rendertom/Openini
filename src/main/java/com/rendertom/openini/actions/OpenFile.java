@@ -38,7 +38,7 @@ public abstract class OpenFile extends AnAction {
         Process.executeIfExists(StringEx.quoteIfHasSpaces(EDITOR_COMMAND), StringEx.quoteEachIfHasSpaces(paths));
       }
     } catch (IOException | InterruptedException e) {
-      throw new RuntimeException(e);
+      Thread.currentThread().interrupt();
     }
   }
 

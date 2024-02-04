@@ -1,7 +1,8 @@
 package com.rendertom.openini.utils;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileEx {
+  private FileEx() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static boolean exists(@Nullable VirtualFile file) {
     return file != null && file.exists();
   }
@@ -29,10 +34,10 @@ public class FileEx {
   }
 
   public static @Nullable VirtualFile getProjectFileDirectory(@NotNull AnActionEvent event) {
-    return event.getData(PlatformDataKeys.PROJECT_FILE_DIRECTORY);
+    return event.getData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY);
   }
 
   public static @Nullable VirtualFile[] getVirtualFiles(@NotNull AnActionEvent event) {
-    return event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
+    return event.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
   }
 }

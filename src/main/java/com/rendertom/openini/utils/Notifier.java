@@ -7,6 +7,10 @@ import com.intellij.openapi.project.ProjectManager;
 import org.jetbrains.annotations.NotNull;
 
 public class Notifier {
+  private Notifier() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static void error(@NotNull Project project, @NotNull String title, @NotNull String content) {
     NotificationGroupManager.getInstance()
       .getNotificationGroup("Openini notifications")

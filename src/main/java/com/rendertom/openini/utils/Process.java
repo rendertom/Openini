@@ -1,6 +1,5 @@
 package com.rendertom.openini.utils;
 
-import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -11,6 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Process {
+  private Process() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static void executeIfExists(String command, String argument) throws IOException, InterruptedException {
     executeIfExists(command, List.of(argument));
   }
@@ -31,14 +34,14 @@ public class Process {
   ///
 
   private static @NotNull ArrayList<String> getArguments() {
-    return new ArrayList<>(SystemInfo.isWindows ? List.of("cmd.exe", "/C") : List.of("/bin/bash", "--login", "-c"));
+    return new ArrayList<>(OSProvider.isWindows() ? List.of("cmd.exe", "/C") : List.of("/bin/bash", "--login", "-c"));
   }
 
-  private static ProcessResult run(String command, List<String> arguments) throws IOException, InterruptedException {
+  protected static ProcessResult run(String command, List<String> arguments) throws IOException, InterruptedException {
     return runCommand(command + " " + String.join(" ", arguments));
   }
 
-  private static ProcessResult runCommand(@NotNull String command) throws IOException, InterruptedException {
+  protected static ProcessResult runCommand(@NotNull String command) throws IOException, InterruptedException {
     ArrayList<String> arguments = getArguments();
     arguments.add(command);
 

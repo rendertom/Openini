@@ -32,7 +32,7 @@ public abstract class OpenProject extends AnAction {
         Process.executeIfExists(StringEx.quoteIfHasSpaces(EDITOR_COMMAND), StringEx.quoteIfHasSpaces(file.getPath()));
       }
     } catch (IOException | InterruptedException e) {
-      throw new RuntimeException(e);
+      Thread.currentThread().interrupt();
     }
   }
 

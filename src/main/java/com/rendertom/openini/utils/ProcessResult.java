@@ -5,7 +5,7 @@ public class ProcessResult {
   private final int EXIT_CODE;
   private final String OUTPUT;
 
-  ProcessResult(String command, int exitCode, String output) {
+  public ProcessResult(String command, int exitCode, String output) {
     this.COMMAND = command;
     this.EXIT_CODE = exitCode;
     this.OUTPUT = output;

@@ -1,6 +1,6 @@
 package com.rendertom.openini.config;
 
-import com.intellij.openapi.util.SystemInfo;
+import com.rendertom.openini.utils.OSProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -25,9 +25,9 @@ public class AppConfigSublime implements AppConfig {
 
   @Override
   public @NotNull String getEditorCommand() {
-    if (SystemInfo.isLinux) return EDITOR_COMMAND.get("linux");
-    if (SystemInfo.isMac) return EDITOR_COMMAND.get("mac");
-    if (SystemInfo.isWindows) return EDITOR_COMMAND.get("windows");
+    if (OSProvider.isLinux()) return EDITOR_COMMAND.get("linux");
+    if (OSProvider.isMac()) return EDITOR_COMMAND.get("mac");
+    if (OSProvider.isWindows()) return EDITOR_COMMAND.get("windows");
 
     throw new RuntimeException("Unsupported OS");
   }
