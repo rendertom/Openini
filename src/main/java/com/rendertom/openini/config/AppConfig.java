@@ -2,10 +2,32 @@ package com.rendertom.openini.config;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface AppConfig {
-  @NotNull String getAppName();
+public abstract class AppConfig {
+  private final String appName;
+  private final String argument;
+  private final String editorCommand;
+  private final String url;
 
-  @NotNull String getEditorCommand();
+  protected AppConfig(@NotNull String appName, @NotNull String argument, @NotNull String editorCommand, @NotNull String url) {
+    this.appName = appName;
+    this.argument = argument;
+    this.editorCommand = editorCommand;
+    this.url = url;
+  }
 
-  @NotNull String getURL();
+  public @NotNull String getAppName() {
+    return appName;
+  }
+
+  public @NotNull String getArgument() {
+    return argument;
+  }
+
+  public @NotNull String getEditorCommand() {
+    return editorCommand;
+  }
+
+  public @NotNull String getURL() {
+    return url;
+  }
 }

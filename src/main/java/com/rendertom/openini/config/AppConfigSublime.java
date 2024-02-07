@@ -3,37 +3,23 @@ package com.rendertom.openini.config;
 import com.rendertom.openini.utils.OSProvider;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class AppConfigSublime implements AppConfig {
+public class AppConfigSublime extends AppConfig {
   static final String APP_NAME = "Sublime Text";
-  static final Map<String, String> EDITOR_COMMAND = new HashMap<>();
+  static final String ARGUMENT = "";
+  static final String EDITOR_COMMAND = "";
   static final String URL = "https://www.sublimetext.com/";
 
-  // Static initializer block to populate the editorCommand map
-  static {
-    EDITOR_COMMAND.put("linux", "subl");
-    EDITOR_COMMAND.put("mac", "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl");
-    EDITOR_COMMAND.put("windows", "C:\\Program Files\\Sublime Text\\subl.exe");
-  }
-
-  @Override
-  public @NotNull String getAppName() {
-    return APP_NAME;
+  public AppConfigSublime() {
+    super(APP_NAME, ARGUMENT, EDITOR_COMMAND, URL);
   }
 
   @Override
   public @NotNull String getEditorCommand() {
-    if (OSProvider.isLinux()) return EDITOR_COMMAND.get("linux");
-    if (OSProvider.isMac()) return EDITOR_COMMAND.get("mac");
-    if (OSProvider.isWindows()) return EDITOR_COMMAND.get("windows");
+    if (OSProvider.isLinux()) return "subl";
+    if (OSProvider.isMac()) return "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl";
+    if (OSProvider.isWindows()) return "C:\\Program Files\\Sublime Text\\subl.exe";
 
-    throw new RuntimeException("Unsupported OS");
+    throw new UnsupportedOperationException("Unsupported OS");
   }
 
-  @Override
-  public @NotNull String getURL() {
-    return URL;
-  }
 }
