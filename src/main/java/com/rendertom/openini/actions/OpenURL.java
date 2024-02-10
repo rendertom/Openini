@@ -7,14 +7,14 @@ import com.rendertom.openini.config.AppConfig;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class OpenURL extends AnAction {
-  protected final String URL;
+  protected final AppConfig config;
 
-  OpenURL(AppConfig config) {
-    this.URL = config.getURL();
+  OpenURL(@NotNull AppConfig config) {
+    this.config = config;
   }
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent event) {
-    BrowserUtil.open(URL);
+    BrowserUtil.open(config.getURL());
   }
 }

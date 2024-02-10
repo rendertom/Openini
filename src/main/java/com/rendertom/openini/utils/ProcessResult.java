@@ -1,26 +1,26 @@
 package com.rendertom.openini.utils;
 
 public class ProcessResult {
-  private final String COMMAND;
-  private final int EXIT_CODE;
-  private final String OUTPUT;
+  private final String command;
+  private final int exitCode;
+  private final String output;
 
   public ProcessResult(String command, int exitCode, String output) {
-    this.COMMAND = command;
-    this.EXIT_CODE = exitCode;
-    this.OUTPUT = output;
+    this.command = command;
+    this.exitCode = exitCode;
+    this.output = output;
   }
 
   public String getCommand() {
-    return COMMAND;
+    return command;
   }
 
   public int getExitCode() {
-    return EXIT_CODE;
+    return exitCode;
   }
 
   public String getOutput() {
-    return OUTPUT;
+    return output;
   }
 
   public boolean isFailure() {
@@ -28,7 +28,7 @@ public class ProcessResult {
   }
 
   public boolean isSuccess() {
-    return EXIT_CODE == 0;
+    return exitCode == 0;
   }
 
   public String toHTML() {

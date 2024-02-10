@@ -2,7 +2,7 @@ package com.rendertom.openini.config;
 
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AppConfig {
+public abstract class AppConfig implements IAppConfig {
   private final String appName;
   private final String argument;
   private final String editorCommand;

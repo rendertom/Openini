@@ -2,13 +2,12 @@ package com.rendertom.openini.actions;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.rendertom.openini.config.AppConfig;
-import com.rendertom.openini.utils.FileEx;
 import com.rendertom.openini.utils.Process;
 import com.rendertom.openini.utils.StringEx;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -17,99 +16,121 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class OpenProjectTest {
+  private OpenProject openProject;
 
   @Mock
-  private AppConfig mockConfig;
+  private AnActionEvent mockAnActionEvent;
+
   @Mock
-  private AnActionEvent mockEvent;
-  @Mock
-  private VirtualFile mockFile;
+  private AppConfig mockAppConfig;
+
   @Mock
   private Presentation mockPresentation;
 
-  private OpenProject openProject;
+  @Mock
+  private VirtualFile mockVirtualFile;
 
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    when(mockConfig.getEditorCommand()).thenReturn("editorCommand");
-    when(mockEvent.getPresentation()).thenReturn(mockPresentation);
-    when(mockFile.getPath()).thenReturn("filePath");
-
-    openProject = new OpenProject(mockConfig) {
-      // Implement abstract methods if necessary for testing
+    openProject = new OpenProject(mockAppConfig) {
+      // Implementation not necessary for testing abstract methods
     };
   }
 
   @Test
   void getActionUpdateThread_ReturnsBGT() {
     ActionUpdateThread result = openProject.getActionUpdateThread();
-    Assertions.assertEquals(ActionUpdateThread.BGT, result, "getActionUpdateThread should return ActionUpdateThread.BGT");
+    assertEquals(ActionUpdateThread.BGT, result, "getActionUpdateThread should return ActionUpdateThread.BGT");
   }
 
   @Test
-  void actionPerformed_FileExists() throws IOException, InterruptedException {
-    // Mock the static methods
-    try (MockedStatic<FileEx> mockedFileEx = mockStatic(FileEx.class);
-         MockedStatic<StringEx> mockedStringEx = mockStatic(StringEx.class);
-         MockedStatic<Process> mockedProcess = mockStatic(Process.class)) {
+  void actionPerformed_ExecuteOnce() {
+    when(mockAnActionEvent.getRequiredData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY)).thenReturn(mockVirtualFile);
+    when(mockVirtualFile.exists()).thenReturn(true);
+    when(mockVirtualFile.getPath()).thenReturn("main.js");
+    when(mockAppConfig.getEditorCommand()).thenReturn("editorCommand");
 
-      mockedFileEx.when(() -> FileEx.getProjectFileDirectory(mockEvent)).thenReturn(mockFile);
-      mockedFileEx.when(() -> FileEx.exists(mockFile)).thenReturn(true);
-      mockedStringEx.when(() -> StringEx.quoteIfHasSpaces(anyString())).thenAnswer(invocation -> "\"" + invocation.getArgument(0) + "\"");
+    try (MockedStatic<Process> mockedProcess = mockStatic(Process.class);
+         MockedStatic<StringEx> mockedStringEx = mockStatic(StringEx.class)) {
 
-      openProject.actionPerformed(mockEvent);
+      mockedStringEx.when(() -> StringEx.quoteIfHasSpaces(anyString())).thenReturn(anyString());
 
-      // Verify the behavior
-      mockedProcess.verify(() -> Process.executeIfExists(anyString(), anyString()), atLeast(1));
-      mockedStringEx.verify(() -> StringEx.quoteIfHasSpaces("editorCommand"), atLeast(1));
-      mockedStringEx.verify(() -> StringEx.quoteIfHasSpaces("filePath"), atLeast(1));
+      openProject.actionPerformed(mockAnActionEvent);
+
+      mockedStringEx.verify(() -> StringEx.quoteIfHasSpaces(anyString()), times(2));
+      mockedProcess.verify(() -> Process.executeIfExists(anyString(), anyString()), times(1));
     }
   }
 
   @Test
-  void actionPerformed_WithException() throws IOException, InterruptedException {
-    try (MockedStatic<FileEx> mockedFileEx = mockStatic(FileEx.class);
-         MockedStatic<StringEx> mockedStringEx = mockStatic(StringEx.class);
-         MockedStatic<Process> mockedProcess = mockStatic(Process.class)) {
+  void actionPerformed_DoNotExecute() {
+    when(mockAnActionEvent.getRequiredData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY)).thenReturn(mockVirtualFile);
+    when(mockVirtualFile.exists()).thenReturn(false);
 
-      mockedFileEx.when(() -> FileEx.getProjectFileDirectory(mockEvent)).thenReturn(mockFile);
-      mockedFileEx.when(() -> FileEx.exists(mockFile)).thenReturn(true);
-      mockedStringEx.when(() -> StringEx.quoteIfHasSpaces(anyString())).thenAnswer(invocation -> "\"" + invocation.getArgument(0) + "\"");
+    try (MockedStatic<Process> mockedProcess = mockStatic(Process.class);
+         MockedStatic<StringEx> mockedStringEx = mockStatic(StringEx.class)) {
+
+      openProject.actionPerformed(mockAnActionEvent);
+
+      mockedStringEx.verify(() -> StringEx.quoteIfHasSpaces(anyString()), times(0));
+      mockedProcess.verify(() -> Process.executeIfExists(anyString(), anyString()), times(0));
+    }
+  }
+
+  @Test
+  void actionPerformed_WithException() {
+    when(mockAnActionEvent.getRequiredData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY)).thenReturn(mockVirtualFile);
+    when(mockVirtualFile.exists()).thenReturn(true);
+    when(mockVirtualFile.getPath()).thenReturn("main.js");
+    when(mockAppConfig.getEditorCommand()).thenReturn("editorCommand");
+
+    try (MockedStatic<Process> mockedProcess = mockStatic(Process.class);
+         MockedStatic<StringEx> mockedStringEx = mockStatic(StringEx.class)) {
 
       mockedProcess.when(() -> Process.executeIfExists(anyString(), anyString())).thenThrow(IOException.class);
+      mockedStringEx.when(() -> StringEx.quoteIfHasSpaces(anyString())).thenReturn(anyString());
 
-      openProject.actionPerformed(mockEvent);
+      openProject.actionPerformed(mockAnActionEvent);
 
       assertTrue(Thread.currentThread().isInterrupted(), "Thread should be interrupted after IOException");
     }
   }
 
   @Test
-  void update_FileExists() {
-    try (MockedStatic<FileEx> mockedFileEx = mockStatic(FileEx.class)) {
-      mockedFileEx.when(() -> FileEx.getProjectFileDirectory(mockEvent)).thenReturn(mockFile);
-      mockedFileEx.when(() -> FileEx.exists(mockFile)).thenReturn(true);
+  void shouldEnablePresentation() {
+    when(mockAnActionEvent.getData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY)).thenReturn(mockVirtualFile);
+    when(mockAnActionEvent.getPresentation()).thenReturn(mockPresentation);
+    when(mockVirtualFile.exists()).thenReturn(true);
 
-      openProject.update(mockEvent);
+    openProject.update(mockAnActionEvent);
 
-      verify(mockPresentation).setEnabled(true);
-    }
+    verify(mockPresentation).setEnabled(true);
   }
 
   @Test
-  void update_FileDoesNotExist() {
-    try (MockedStatic<FileEx> mockedFileEx = mockStatic(FileEx.class)) {
-      mockedFileEx.when(() -> FileEx.getProjectFileDirectory(mockEvent)).thenReturn(null);
+  void shouldDisablePresentationWhenFileDoesNotExist() {
+    when(mockAnActionEvent.getData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY)).thenReturn(mockVirtualFile);
+    when(mockAnActionEvent.getPresentation()).thenReturn(mockPresentation);
+    when(mockVirtualFile.exists()).thenReturn(false);
 
-      openProject.update(mockEvent);
+    openProject.update(mockAnActionEvent);
 
-      verify(mockPresentation).setEnabled(false);
-    }
+    verify(mockPresentation).setEnabled(false);
+  }
+
+  @Test
+  void shouldDisablePresentationWhenFileIsNull() {
+    when(mockAnActionEvent.getData(PlatformCoreDataKeys.PROJECT_FILE_DIRECTORY)).thenReturn(null);
+    when(mockAnActionEvent.getPresentation()).thenReturn(mockPresentation);
+
+    openProject.update(mockAnActionEvent);
+
+    verify(mockPresentation).setEnabled(false);
   }
 }
-

@@ -1,25 +1,23 @@
 package com.rendertom.openini.actions;
 
-import com.intellij.openapi.actionSystem.ActionUpdateThread;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.rendertom.openini.config.AppConfig;
-import com.rendertom.openini.utils.FileEx;
 import com.rendertom.openini.utils.Process;
-import com.rendertom.openini.utils.StringEx;
+import com.rendertom.openini.utils.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class OpenFile extends AnAction {
   protected final AppConfig config;
 
-  OpenFile(@NotNull AppConfig config) {
+  protected OpenFile(@NotNull AppConfig config) {
     this.config = config;
   }
 
@@ -30,12 +28,15 @@ public abstract class OpenFile extends AnAction {
 
   @Override
   public void actionPerformed(@NotNull AnActionEvent event) {
-    VirtualFile[] files = FileEx.getVirtualFiles(event);
-
     Project project = event.getRequiredData(CommonDataKeys.PROJECT);
-    List<String> paths = FileEx.getPathsWithCaretPosition(files, project);
-    List<String> arguments = StringEx.quoteEachIfHasSpaces(paths);
-    if (StringEx.containsLineAndColumnNumber(arguments)) {
+    VirtualFile[] files = event.getRequiredData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
+
+    IEditorManager editorManager = new EditorManager(project);
+    List<IPath> paths = Arrays.stream(files).map(editorManager::getPath).toList();
+    List<String> arguments = paths.stream().map(IPath::getPathAndCaretPosition).collect(Collectors.toCollection(ArrayList::new));
+
+    boolean hasCaret = paths.stream().anyMatch(IPath::hasCaretPosition);
+    if (hasCaret) {
       arguments.add(0, config.getArgument());
     }
 
@@ -48,32 +49,16 @@ public abstract class OpenFile extends AnAction {
 
   @Override
   public void update(@NotNull AnActionEvent event) {
-    VirtualFile[] files = FileEx.getVirtualFiles(event);
-    if (files == null || files.length == 0) {
-      event.getPresentation().setEnabled(false);
-    } else {
-      event.getPresentation().setText(getActionName(files));
-    }
-  }
+    Presentation presentation = event.getPresentation();
+    Project project = event.getData(CommonDataKeys.PROJECT);
+    VirtualFile[] files = event.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
 
-  ///
-
-  private @NotNull String getActionName(@NotNull VirtualFile[] files) {
-    long numFiles = Arrays.stream(files).filter(item -> !item.isDirectory()).count();
-    long numFolders = Arrays.stream(files).filter(VirtualFile::isDirectory).count();
-
-    String description;
-    String fileType = numFiles == 1 ? "File" : (numFiles + " Files");
-    String folderType = numFolders == 1 ? "Folder" : (numFolders + " Folders");
-
-    if (numFiles == 0) {
-      description = folderType;
-    } else if (numFolders == 0) {
-      description = fileType;
-    } else {
-      description = fileType + " and " + folderType;
+    if (project == null || files == null || files.length == 0) {
+      presentation.setEnabled(false);
+      return;
     }
 
-    return "Open " + description + " in " + config.getAppName();
+    ActionNameManager nameManager = new ActionNameManager(config.getAppName(), files);
+    presentation.setText(nameManager.getName());
   }
 }
