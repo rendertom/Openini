@@ -1,17 +1,7 @@
 import org.jetbrains.changelog.markdownToHTML
 
-plugins {
-    id("java")
-    id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.intellij") version "1.15.0"
-}
-
 group = "com.rendertom"
 version = "1.1.0"
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0") // JUnit Jupiter API for writing tests
@@ -22,26 +12,36 @@ dependencies {
     testImplementation("org.mockito:mockito-junit-jupiter:3.11.2") // Mockito JUnit Jupiter support
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 intellij {
     version.set("2022.2.5")
 }
 
-tasks {
-    withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
+plugins {
+    id("java")
+    id("org.jetbrains.changelog") version "1.3.1"
+    id("org.jetbrains.intellij") version "1.15.0"
+}
 
+repositories {
+    mavenCentral()
+}
+
+tasks {
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("232.*")
 
         pluginDescription.set(extractText("./README.md"))
         changeNotes.set(extractText("./CHANGELOG.md"))
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    withType<JavaCompile> {
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
     }
 }
 
