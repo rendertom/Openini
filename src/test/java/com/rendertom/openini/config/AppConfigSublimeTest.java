@@ -31,6 +31,7 @@ class AppConfigSublimeTest {
   void constructorAndGetterTests() {
     assertEquals(AppConfigSublime.APP_NAME, config.getAppName());
     assertEquals(AppConfigSublime.ARGUMENT, config.getArgument());
+    assertEquals(AppConfigSublime.ICON, config.getIcon());
     assertEquals(AppConfigSublime.URL, config.getURL());
   }
 

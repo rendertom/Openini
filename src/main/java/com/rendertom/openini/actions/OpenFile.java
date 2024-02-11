@@ -2,8 +2,9 @@ package com.rendertom.openini.actions;
 
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.rendertom.openini.config.AppConfig;
+import com.rendertom.openini.config.IAppConfig;
 import com.rendertom.openini.utils.Process;
 import com.rendertom.openini.utils.*;
 import org.jetbrains.annotations.NotNull;
@@ -14,10 +15,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class OpenFile extends AnAction {
-  protected final AppConfig config;
+public class OpenFile extends AnAction {
+  private final IAppConfig config;
 
-  protected OpenFile(@NotNull AppConfig config) {
+  public OpenFile(@NotNull IAppConfig config) {
+    this.config = config;
+  }
+
+  public OpenFile(@NotNull IAppConfig config, String text) {
+    super(text, text, IconLoader.getIcon(config.getIcon(), OpenFile.class));
     this.config = config;
   }
 

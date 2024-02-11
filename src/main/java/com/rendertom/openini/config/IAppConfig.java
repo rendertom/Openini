@@ -8,6 +8,8 @@ public interface IAppConfig {
   @NotNull String getArgument();
 
   @NotNull String getEditorCommand();
+  
+  @NotNull String getIcon();
 
   @NotNull String getURL();
 }

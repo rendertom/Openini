@@ -17,24 +17,8 @@
   </extensions>
 
   <actions>
-    <group id="wrapper">
-      <group id="Openini.Container" popup="true" text="Openini" icon="/icon.svg">
-        <action id="Openini.OpenFileSublime" class="com.rendertom.openini.actions.OpenFileSublime"
-                text="Open File in Sublime Text" icon="/sublime.svg"/>
-        <action id="Openini.OpenProjectSublime" class="com.rendertom.openini.actions.OpenProjectSublime"
-                text="Open Project in Sublime Text" icon="/sublime.svg"/>
-        <action id="Openini.OpenURLSublime" class="com.rendertom.openini.actions.OpenURLSublime"
-                text="Get Sublime Text" icon="AllIcons.General.Web"/>
-        <separator/>
-        <action id="Openini.OpenFileVSCode" class="com.rendertom.openini.actions.OpenFileVSCode"
-                text="Open File in VSCode" icon="/vscode.svg"/>
-        <action id="Openini.OpenProjectVSCode" class="com.rendertom.openini.actions.OpenProjectVSCode"
-                text="Open Project in VSCode" icon="/vscode.svg"/>
-        <action id="Openini.OpenURLVSCode" class="com.rendertom.openini.actions.OpenURLVSCode" text="Get VSCode"
-                icon="AllIcons.General.Web"/>
-      </group>
-
-      <separator/>
+    <group id="Openini.Container" class="com.rendertom.openini.actions.Actions"
+           popup="true" text="Openini" description="Description" icon="/icons/openini.svg">
 
       <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
       <add-to-group group-id="Diff.EditorPopupMenu" anchor="last"/>

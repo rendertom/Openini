@@ -6,12 +6,14 @@ public abstract class AppConfig implements IAppConfig {
   private final String appName;
   private final String argument;
   private final String editorCommand;
+  private final String icon;
   private final String url;
 
-  protected AppConfig(@NotNull String appName, @NotNull String argument, @NotNull String editorCommand, @NotNull String url) {
+  protected AppConfig(@NotNull String appName, @NotNull String argument, @NotNull String editorCommand, @NotNull String icon, @NotNull String url) {
     this.appName = appName;
     this.argument = argument;
     this.editorCommand = editorCommand;
+    this.icon = icon;
     this.url = url;
   }
 
@@ -25,6 +27,10 @@ public abstract class AppConfig implements IAppConfig {
 
   public @NotNull String getEditorCommand() {
     return editorCommand;
+  }
+
+  public @NotNull String getIcon() {
+    return icon;
   }
 
   public @NotNull String getURL() {

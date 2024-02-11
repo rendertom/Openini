@@ -12,6 +12,7 @@ class AppConfigVSCodeTest {
     assertEquals(AppConfigVSCode.APP_NAME, config.getAppName());
     assertEquals(AppConfigVSCode.ARGUMENT, config.getArgument());
     assertEquals(AppConfigVSCode.EDITOR_COMMAND, config.getEditorCommand());
+    assertEquals(AppConfigVSCode.ICON, config.getIcon());
     assertEquals(AppConfigVSCode.URL, config.getURL());
   }
 }

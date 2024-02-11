@@ -6,8 +6,9 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.rendertom.openini.config.AppConfig;
+import com.rendertom.openini.config.IAppConfig;
 import com.rendertom.openini.utils.Process;
 import com.rendertom.openini.utils.StringEx;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ class OpenFileTest {
   private AnActionEvent mockAnActionEvent;
 
   @Mock
-  private AppConfig mockAppConfig;
+  private IAppConfig mockAppConfig;
 
   @Mock
   private FileEditorManager mockFileEditorManager;
@@ -46,9 +47,18 @@ class OpenFileTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    openFile = new OpenFile(mockAppConfig) {
-      // Implementation not necessary for testing abstract methods
-    };
+    openFile = new OpenFile(mockAppConfig);
+  }
+
+  @Test
+  void testConstructor() {
+    String icon = "/icons/icon.png";
+    when(mockAppConfig.getIcon()).thenReturn(icon);
+
+    try (MockedStatic<IconLoader> mockedIconLoader = mockStatic(IconLoader.class)) {
+      new OpenFile(mockAppConfig, "");
+      mockedIconLoader.verify(() -> IconLoader.getIcon(icon, OpenFile.class), times(1));
+    }
   }
 
   @Test

@@ -7,10 +7,11 @@ public class AppConfigSublime extends AppConfig {
   static final String APP_NAME = "Sublime Text";
   static final String ARGUMENT = "";
   static final String EDITOR_COMMAND = "";
+  static final String ICON = "icons/sublime.svg";
   static final String URL = "https://www.sublimetext.com/";
 
   public AppConfigSublime() {
-    super(APP_NAME, ARGUMENT, EDITOR_COMMAND, URL);
+    super(APP_NAME, ARGUMENT, EDITOR_COMMAND, ICON, URL);
   }
 
   @Override

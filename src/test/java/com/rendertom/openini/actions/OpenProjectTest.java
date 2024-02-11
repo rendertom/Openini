@@ -4,8 +4,9 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.rendertom.openini.config.AppConfig;
+import com.rendertom.openini.config.IAppConfig;
 import com.rendertom.openini.utils.Process;
 import com.rendertom.openini.utils.StringEx;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ class OpenProjectTest {
   private AnActionEvent mockAnActionEvent;
 
   @Mock
-  private AppConfig mockAppConfig;
+  private IAppConfig mockAppConfig;
 
   @Mock
   private Presentation mockPresentation;
@@ -38,9 +39,18 @@ class OpenProjectTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    openProject = new OpenProject(mockAppConfig) {
-      // Implementation not necessary for testing abstract methods
-    };
+    openProject = new OpenProject(mockAppConfig);
+  }
+
+  @Test
+  void testConstructor() {
+    String icon = "/icons/icon.png";
+    when(mockAppConfig.getIcon()).thenReturn(icon);
+
+    try (MockedStatic<IconLoader> mockedIconLoader = mockStatic(IconLoader.class)) {
+      new OpenProject(mockAppConfig, "");
+      mockedIconLoader.verify(() -> IconLoader.getIcon(icon, OpenProject.class), times(1));
+    }
   }
 
   @Test

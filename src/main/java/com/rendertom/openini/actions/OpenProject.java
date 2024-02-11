@@ -4,18 +4,24 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.rendertom.openini.config.AppConfig;
+import com.rendertom.openini.config.IAppConfig;
 import com.rendertom.openini.utils.Process;
 import com.rendertom.openini.utils.StringEx;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
-public abstract class OpenProject extends AnAction {
-  protected final AppConfig config;
+public class OpenProject extends AnAction {
+  private final IAppConfig config;
 
-  OpenProject(@NotNull AppConfig config) {
+  public OpenProject(@NotNull IAppConfig config) {
+    this.config = config;
+  }
+
+  public OpenProject(@NotNull IAppConfig config, String text) {
+    super(text, text, IconLoader.getIcon(config.getIcon(), OpenProject.class));
     this.config = config;
   }
 
