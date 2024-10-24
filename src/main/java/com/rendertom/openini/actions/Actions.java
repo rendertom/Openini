@@ -20,13 +20,11 @@ public class Actions extends ActionGroup {
     return new AnAction[]{
       new OpenFile(sublime, "Open File in Sublime Text"),
       new OpenProject(sublime, "Open Project in Sublime Text"),
-      new OpenURL(sublime, "Get Sublime Text"),
 
       new Separator(),
 
       new OpenFile(vscode, "Open File in VSCode"),
       new OpenProject(vscode, "Open Project in VSCode"),
-      new OpenURL(vscode, "Get VSCode"),
     };
   }
 }

@@ -10,6 +10,4 @@ public interface IAppConfig {
   @NotNull String getEditorCommand();
   
   @NotNull String getIcon();
-
-  @NotNull String getURL();
 }

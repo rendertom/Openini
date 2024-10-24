@@ -7,14 +7,12 @@ public abstract class AppConfig implements IAppConfig {
   private final String argument;
   private final String editorCommand;
   private final String icon;
-  private final String url;
 
-  protected AppConfig(@NotNull String appName, @NotNull String argument, @NotNull String editorCommand, @NotNull String icon, @NotNull String url) {
+  protected AppConfig(@NotNull String appName, @NotNull String argument, @NotNull String editorCommand, @NotNull String icon) {
     this.appName = appName;
     this.argument = argument;
     this.editorCommand = editorCommand;
     this.icon = icon;
-    this.url = url;
   }
 
   public @NotNull String getAppName() {
@@ -33,7 +31,4 @@ public abstract class AppConfig implements IAppConfig {
     return icon;
   }
 
-  public @NotNull String getURL() {
-    return url;
-  }
 }

@@ -13,6 +13,5 @@ class AppConfigVSCodeTest {
     assertEquals(AppConfigVSCode.ARGUMENT, config.getArgument());
     assertEquals(AppConfigVSCode.EDITOR_COMMAND, config.getEditorCommand());
     assertEquals(AppConfigVSCode.ICON, config.getIcon());
-    assertEquals(AppConfigVSCode.URL, config.getURL());
   }
 }
