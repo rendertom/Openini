@@ -1,7 +1,7 @@
 import org.jetbrains.changelog.markdownToHTML
 
 group = "com.rendertom"
-version = "1.1.0"
+version = "1.2.0"
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0") // JUnit Jupiter API for writing tests
