@@ -29,7 +29,7 @@ repositories {
 tasks {
     patchPluginXml {
         sinceBuild.set("222")
-        untilBuild.set("232.*")
+        untilBuild.set(provider { null })
 
         pluginDescription.set(extractText("./README.md"))
         changeNotes.set(extractText("./CHANGELOG.md"))
