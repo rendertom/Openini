@@ -2,6 +2,23 @@
 
 <!-- Plugin info START -->
 
+## [1.2.0] 2024-10-26
+
+### Added
+
+- Move caret position to a current line and column number when opening file
+
+### Changed
+
+- Major codebase refactoring
+- Added tests
+
+### Removed
+
+- Option to open selected IDE homepage in the browser
+
+---
+
 ## [1.1.0] 2023-08-17
 
 ### Added
