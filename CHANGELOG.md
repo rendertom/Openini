@@ -2,6 +2,14 @@
 
 <!-- Plugin info START -->
 
+## [1.3.0] 2025-02-07
+
+### Added
+
+- Zed support
+
+---
+
 ## [1.2.0] 2024-10-26
 
 ### Added
